@@ -1,0 +1,56 @@
+{
+  "name": "zapier-platform-app-microsoft-exchange",
+  "version": "1.6.1",
+  "description": "CLI app for Microsoft Exchange",
+  "repository": "zapier/make-this-match",
+  "homepage": "https://zapier.com/",
+  "author": "Mike Solomon <mike.solomon@zapier.com>",
+  "license": "BSD-3-Clause",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --timeout 10000 --recursive --require './test/bootstrap.js'",
+    "lint": "eslint **/*.js",
+    "format": "prettier-eslint --write \"**/*.js\"",
+    "bootstrap": "lerna bootstrap --scope=zapier-platform-utils --scope=zapier-platform-common-* --scope=$npm_package_name",
+    "save": "lerna add --scope=$npm_package_name",
+    "save-dev": "lerna add --scope=$npm_package_name --dev",
+    "prezapier-push": "lerna bootstrap",
+    "zapier-push": "zapier push --skip-npm-install"
+  },
+  "engines": {
+    "node": "8.10.0",
+    "npm": ">=5.6.0"
+  },
+  "dependencies": {
+    "config": "^2.0.1",
+    "zapier-platform-common-microsoft": "1.0.0",
+    "zapier-platform-core": "8.0.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-string": "^1.5.0",
+    "chai-things": "^0.2.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "husky": "^1.1.3",
+    "lint-staged": "^8.0.4",
+    "mocha": "^5.2.0",
+    "moment": "^2.24.0",
+    "nock": "^10.0.2",
+    "prettier-eslint-cli": "^4.7.1",
+    "timekeeper": "^2.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier-eslint --write",
+      "git add"
+    ]
+  }
+}

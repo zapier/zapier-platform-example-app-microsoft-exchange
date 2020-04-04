@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "ErrorAccessDenied",
+    "message": "Access is denied. Check credentials and try again.",
+    "innerError": {
+      "request-id": "bcbe8e61-f341-42c0-8884-09f3807b0267",
+      "date": "2019-03-06T21:19:09"
+    }
+  }
+}

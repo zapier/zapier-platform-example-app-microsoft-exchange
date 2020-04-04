@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "InvalidAuthenticationToken",
+    "message": "Access token is empty.",
+    "innerError": {
+      "request-id": "cfdc3ba5-718b-4428-93e6-3800e4fee565",
+      "date": "2019-02-14T00:45:57"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "error": {
+    "code": "ErrorPropertyValidationFailure",
+    "message": "At least one property failed validation.",
+    "innerError": {
+      "request-id": "f8ded412-3d6e-4268-bd4b-d5811d56846d",
+      "date": "2019-03-27T19:17:20"
+    }
+  }
+}

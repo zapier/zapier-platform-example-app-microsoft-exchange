@@ -1,0 +1,15 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('testzapier%40outlook.com')/contactFolders",
+    "value": [
+        {
+            "id": "AQMkADAwATM3ZmYAZS0xZWJiAC04YjY3LTAwAi0wMAoALgAAA-OxI5vmNgdDhCtSRujtT90BAIUvBr0BBudHoyLUg4Vqf3sAAAAVw2tVAAAA",
+            "parentFolderId": "AQMkADAwATM3ZmYAZS0xZWJiAC04YjY3LTAwAi0wMAoALgAAA-OxI5vmNgdDhCtSRujtT90BAIUvBr0BBudHoyLUg4Vqf3sAAAIBDgAAAA==",
+            "displayName": "Work Contacts"
+        },
+        {
+            "id": "AQMkADAwATM3ZmYAZS0xZWJiAC04YjY3LTAwAi0wMAoALgAAA-OxI5vmNgdDhCtSRujtT90BAIUvBr0BBudHoyLUg4Vqf3sAAAAhXeDcAAAA",
+            "parentFolderId": "AQMkADAwATM3ZmYAZS0xZWJiAC04YjY3LTAwAi0wMAoALgAAA-OxI5vmNgdDhCtSRujtT90BAIUvBr0BBudHoyLUg4Vqf3sAAAIBDgAAAA==",
+            "displayName": "Personal Contacts"
+        }
+    ]
+}
