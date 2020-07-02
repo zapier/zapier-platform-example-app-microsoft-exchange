@@ -1,6 +1,11 @@
-const {
-  triggerListContactFolders,
-} = require('zapier-platform-common-microsoft/triggers/list_contact_folders');
+const triggerListContactFolders = async z => {
+  const response = await z.request({
+    url: `${API_BASE_URL}/me/contactFolders`,
+    prefixErrorMessageWith: 'Unable to retrieve the list of folders',
+  });
+
+  return z.JSON.parse(response.content).value;
+};
 
 const sample = require('../samples/contact_folder');
 

@@ -23,7 +23,6 @@
   },
   "dependencies": {
     "config": "^2.0.1",
-    "zapier-platform-common-microsoft": "1.0.0",
     "zapier-platform-core": "8.0.1"
   },
   "devDependencies": {

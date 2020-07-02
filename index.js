@@ -39,9 +39,6 @@ const App = {
   },
 
   creates: {
-    [CreateCalendarEvent.key]: CreateCalendarEvent,
-    [CreateDraftEmail.key]: CreateDraftEmail,
-    [SendEmail.key]: SendEmail,
     [CreateContact.key]: CreateContact,
     [UpdateContact.key]: UpdateContact,
   },

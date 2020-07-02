@@ -1,6 +1,84 @@
 const {
-  updateContact,
-} = require('zapier-platform-common-microsoft/creates/update_contact');
+  formatContactEmails,
+  formatContactAddress,
+  cleanContactEntries,
+  updateContactRequestURL,
+  checkIfAnyAddressDataIsSpecified,
+} = require('../helpers');
+
+const updateContact = async (z, bundle) => {
+  const {
+    givenName,
+    surname,
+    businessPhones,
+    homePhones,
+    mobilePhone,
+    jobTitle,
+    companyName,
+    department,
+    businessHomePage,
+    personalNotes,
+  } = bundle.inputData;
+
+  const body = {
+    givenName,
+    surname,
+    emailAddresses: formatContactEmails(bundle.inputData),
+    businessPhones,
+    homePhones,
+    mobilePhone,
+    jobTitle,
+    companyName,
+    department,
+    businessHomePage,
+    personalNotes,
+    businessAddress: formatContactAddress(bundle.inputData.businessAddress),
+    homeAddress: formatContactAddress(bundle.inputData.homeAddress),
+    otherAddress: formatContactAddress(bundle.inputData.otherAddress),
+  };
+
+  // When a user does not specify something in these fields in Zapier, we
+  // end up defaulting them to [] - which Microsoft thinks means "delete all
+  // existing data for these fields". In reality, we don't want to touch fields
+  // that the user does not specify so let's remove any keys from the body
+  // that the user hasn't specified.
+  if (
+    !bundle.inputData.emailAddresses ||
+    bundle.inputData.emailAddresses.length === 0
+  ) {
+    delete body.emailAddresses;
+  }
+
+  if (!checkIfAnyAddressDataIsSpecified(bundle.inputData.businessAddress)) {
+    delete body.businessAddress;
+  }
+
+  if (!checkIfAnyAddressDataIsSpecified(bundle.inputData.homeAddress)) {
+    delete body.homeAddress;
+  }
+
+  if (!checkIfAnyAddressDataIsSpecified(bundle.inputData.otherAddress)) {
+    delete body.otherAddress;
+  }
+
+  // Existing properties that are not included in the request body will maintain
+  // their previous values or be recalculated based on changes to other property
+  // values. Passing in "null" for a field does not cause it to change.
+  //
+  // Nested values, such as addresses, need to include all of the fields, however.
+  // If a user currently has a city / state specified and they make an update
+  // and only specify the Zip code - the city and state will be removed.
+  const response = await z.request({
+    method: 'PATCH',
+    url: updateContactRequestURL(bundle),
+    json: body,
+    prefixErrorMessageWith: 'Unable to update the specified contact',
+  });
+
+  const parsedJson = z.JSON.parse(response.content);
+
+  return cleanContactEntries(parsedJson);
+};
 
 const sample = require('../samples/contact');
 
