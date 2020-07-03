@@ -1,7 +1,3 @@
-const {
-  stashEmailFunction,
-} = require('zapier-platform-common-microsoft/utils');
-
 const authentication = require('./authentication');
 const middleware = require('./middleware');
 
@@ -20,16 +16,7 @@ const App = {
 
   afterResponse: [middleware.checkForErrors],
 
-  hydrators: {
-    stashEmailFunction,
-  },
-
   triggers: {
-    [ListCalendarsTrigger.key]: ListCalendarsTrigger,
-    [NewCalendarEventTrigger.key]: NewCalendarEventTrigger,
-    [NewEmailTrigger.key]: NewEmailTrigger,
-    [CalendarEventStartTrigger.key]: CalendarEventStartTrigger,
-    [UpdatedCalendarEventTrigger.key]: UpdatedCalendarEventTrigger,
     [NewContactTrigger.key]: NewContactTrigger,
     [ListContactFoldersTrigger.key]: ListContactFoldersTrigger,
   },
@@ -40,7 +27,6 @@ const App = {
 
   creates: {
     [CreateContact.key]: CreateContact,
-    [UpdateContact.key]: UpdateContact,
   },
 
   searchOrCreates: {
