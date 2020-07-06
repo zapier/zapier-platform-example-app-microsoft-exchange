@@ -1,3 +1,11 @@
+/**
+ * Middleware allows you to run some kind of work before and after HTTP requests.
+ * A beforeRequest middleware function takes a request options object, and returns a (possibly mutated) request object.
+ * An afterResponse middleware function takes a response object, and returns a (possibly mutated) response object.
+ *
+ * Relevant docs: https://platform.zapier.com/cli_docs/docs#using-http-middleware
+ */
+
 const includeBearerToken = (request, z, bundle) => {
   if (bundle.authData.access_token) {
     request.headers.Authorization = `Bearer ${bundle.authData.access_token}`;
@@ -40,30 +48,34 @@ const checkForErrors = (response, z) => {
     // make that clear.
     if (responseJson.error.code === 'ErrorAccessDenied') {
       throw new Error(
-        `${prefixErrorMessageWith}: This feature requires new permissions from your Exchange account. Please reconnect your account to take advantage of it.`,
+        `${prefixErrorMessageWith}: This feature requires new permissions from your Exchange account. Please reconnect your account to take advantage of it.`
       );
     } else if (responseJson.error.code === 'ErrorInvalidIdMalformed') {
       throw new z.errors.HaltedError(
-        `${prefixErrorMessageWith}: One of the fields you entered has an invalid id.`,
+        `${prefixErrorMessageWith}: One of the fields you entered has an invalid id.`
       );
     } else if (
-      responseHttpStatusCode === 413
-      && responseJson.error.code === 'BadRequest'
-      && responseJson.error.message === 'Maximum request length exceeded.'
+      responseHttpStatusCode === 413 &&
+      responseJson.error.code === 'BadRequest' &&
+      responseJson.error.message === 'Maximum request length exceeded.'
     ) {
       throw new z.errors.HaltedError(
-        `${prefixErrorMessageWith}: Attached files must be less than 4MB.`,
+        `${prefixErrorMessageWith}: Attached files must be less than 4MB.`
       );
     } else {
       // Ideally most APIs will return an error with this structure.
-      throw new Error(`${prefixErrorMessageWith}: ${responseJson.error.message}`);
+      throw new Error(
+        `${prefixErrorMessageWith}: ${responseJson.error.message}`
+      );
     }
   }
 
   // If we end up here guess we don't really have any idea what happened so we'll
   // just return the generic content.
   throw new Error(
-    `${prefixErrorMessageWith}. Error code ${responseHttpStatusCode}: ${response.content}`,
+    `${prefixErrorMessageWith}. Error code ${responseHttpStatusCode}: ${
+      response.content
+    }`
   );
 };
 

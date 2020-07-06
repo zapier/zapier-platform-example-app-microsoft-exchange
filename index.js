@@ -1,3 +1,6 @@
+// This is where the core definition of your app is set
+// Relevant Docs: https://platform.zapier.com/cli_docs/docs#local-project-structure
+
 const authentication = require('./authentication');
 const middleware = require('./middleware');
 
@@ -12,9 +15,9 @@ const App = {
 
   authentication,
 
-  beforeRequest: [middleware.includeBearerToken],
+  beforeRequest: [middleware.includeBearerToken], // Docs for middleware: https://platform.zapier.com/cli_docs/docs#using-http-middleware
 
-  afterResponse: [middleware.checkForErrors],
+  afterResponse: [middleware.checkForErrors], // Docs for middleware: https://platform.zapier.com/cli_docs/docs#using-http-middleware
 
   triggers: {
     [NewContactTrigger.key]: NewContactTrigger,

@@ -2,7 +2,6 @@ const { API_BASE_URL } = require('./constants');
 
 const moment = require('moment');
 const contentDisposition = require('content-disposition');
-// TODO: investigate what content-disposition is
 
 /**
  * Takes an array of strings of emails and translates it into the
