@@ -1,4 +1,4 @@
-const { API_BASE_URL } = require('zapier-platform-common-microsoft/constants');
+const { API_BASE_URL } = require('../../constants');
 const { expect } = require('chai');
 const zapier = require('zapier-platform-core');
 const nock = require('nock');
@@ -10,7 +10,8 @@ const getBundle = () => ({
 });
 
 describe('Microsoft Exchange App', () => {
-  it('declares a Find Contact search', () => expect(App.searches.find_contact).to.exist);
+  it('declares a Find Contact search', () =>
+    expect(App.searches.find_contact).to.exist);
   const findContactsResponse = require('../fixtures/responses/list_contacts_response'); // eslint-disable-line global-require
 
   describe('Find Contact search', () => {
@@ -19,13 +20,18 @@ describe('Microsoft Exchange App', () => {
       before(async () => {
         const bundle = getBundle();
         bundle.inputData.emailAddresses = 'zap.zaplar@zapier.ninja';
-        const expectedFilter = `emailAddresses/any(a:a/address eq '${bundle.inputData.emailAddresses}')`;
+        const expectedFilter = `emailAddresses/any(a:a/address eq '${
+          bundle.inputData.emailAddresses
+        }')`;
         nock(API_BASE_URL)
           .get('/me/contacts')
           .query({ $top: '50', $filter: expectedFilter })
           .reply(200, findContactsResponse);
 
-        result = await appTester(App.searches.find_contact.operation.perform, bundle);
+        result = await appTester(
+          App.searches.find_contact.operation.perform,
+          bundle
+        );
       });
 
       it('returns the expected contact', () => {
@@ -44,13 +50,20 @@ describe('Microsoft Exchange App', () => {
         const bundle = getBundle();
         bundle.inputData.emailAddresses = 'zap.zaplar@zapier.ninja';
         bundle.inputData.contactFolderId = 'someContactFolderId';
-        const expectedFilter = `emailAddresses/any(a:a/address eq '${bundle.inputData.emailAddresses}')`;
+        const expectedFilter = `emailAddresses/any(a:a/address eq '${
+          bundle.inputData.emailAddresses
+        }')`;
         nock(API_BASE_URL)
-          .get(`/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`)
+          .get(
+            `/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`
+          )
           .query({ $top: '50', $filter: expectedFilter })
           .reply(200, findContactsResponse);
 
-        result = await appTester(App.searches.find_contact.operation.perform, bundle);
+        result = await appTester(
+          App.searches.find_contact.operation.perform,
+          bundle
+        );
       });
 
       it('returns the expected contact', () => {
@@ -69,13 +82,18 @@ describe('Microsoft Exchange App', () => {
       before(async () => {
         const bundle = getBundle();
         bundle.inputData = { givenName: 'Zap', surname: 'Zaplar' };
-        const expectedFilter = `givenName eq '${bundle.inputData.givenName}' and surname eq '${bundle.inputData.surname}'`;
+        const expectedFilter = `givenName eq '${
+          bundle.inputData.givenName
+        }' and surname eq '${bundle.inputData.surname}'`;
         nock(API_BASE_URL)
           .get('/me/contacts')
           .query({ $top: '50', $filter: expectedFilter })
           .reply(200, findContactsResponse);
 
-        result = await appTester(App.searches.find_contact.operation.perform, bundle);
+        result = await appTester(
+          App.searches.find_contact.operation.perform,
+          bundle
+        );
       });
 
       it('returns the expected contact', () => {
@@ -92,13 +110,18 @@ describe('Microsoft Exchange App', () => {
       before(async () => {
         const bundle = getBundle();
         bundle.inputData.emailAddresses = 'zip.ziplar@zapier.ninja';
-        const expectedFilter = `emailAddresses/any(a:a/address eq '${bundle.inputData.emailAddresses}')`;
+        const expectedFilter = `emailAddresses/any(a:a/address eq '${
+          bundle.inputData.emailAddresses
+        }')`;
         nock(API_BASE_URL)
           .get('/me/contacts')
           .query({ $top: '50', $filter: expectedFilter })
           .reply(200, { value: [] });
 
-        result = await appTester(App.searches.find_contact.operation.perform, bundle);
+        result = await appTester(
+          App.searches.find_contact.operation.perform,
+          bundle
+        );
       });
 
       it('returns an empty array', () => {
@@ -109,8 +132,10 @@ describe('Microsoft Exchange App', () => {
     describe('given no search fields are filled out', () => {
       it('throws an error telling you to have some inputData please', async () => {
         await expect(
-          appTester(App.searches.find_contact.operation.perform, getBundle()),
-        ).to.be.rejectedWith('Please enter a value in one of the search action input fields');
+          appTester(App.searches.find_contact.operation.perform, getBundle())
+        ).to.be.rejectedWith(
+          'Please enter a value in one of the search action input fields'
+        );
       });
     });
 
@@ -119,7 +144,9 @@ describe('Microsoft Exchange App', () => {
       before(() => {
         bundle = getBundle();
         bundle.inputData.emailAddresses = 'zap.zaplar@zapier.ninja';
-        const expectedFilter = `emailAddresses/any(a:a/address eq '${bundle.inputData.emailAddresses}')`;
+        const expectedFilter = `emailAddresses/any(a:a/address eq '${
+          bundle.inputData.emailAddresses
+        }')`;
         nock(API_BASE_URL)
           .get('/me/contacts')
           .query({ $top: '50', $filter: expectedFilter })
@@ -128,8 +155,10 @@ describe('Microsoft Exchange App', () => {
 
       it('returns a descriptive message', async () => {
         await expect(
-          appTester(App.searches.find_contact.operation.perform, bundle),
-        ).to.be.rejectedWith('Unable to retrieve the list of contacts: some random error');
+          appTester(App.searches.find_contact.operation.perform, bundle)
+        ).to.be.rejectedWith(
+          'Unable to retrieve the list of contacts: some random error'
+        );
       });
     });
   });

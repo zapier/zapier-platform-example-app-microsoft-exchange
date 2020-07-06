@@ -1,6 +1,5 @@
-const { API_BASE_URL, AUTH_BASE_URL } = require('zapier-platform-common-microsoft/constants');
+const { API_BASE_URL, AUTH_BASE_URL } = require('../constants');
 const { expect } = require('chai');
-const config = require('config');
 const zapier = require('zapier-platform-core');
 const nock = require('nock');
 const App = require('../index');
@@ -21,19 +20,21 @@ describe('authentication', () => {
               redirect_uri: 'http://zapier.com/',
             },
             environment: {
-              CLIENT_ID: config.get('Auth.CLIENT_ID'),
-              CLIENT_SECRET: config.get('Auth.CLIENT_SECRET'),
+              CLIENT_ID: process.env.CLIENT_ID || '1234',
+              CLIENT_SECRET: process.env.CLIENT_SECRET || 'abcd',
             },
           };
 
-          result = await appTester(App.authentication.oauth2Config.authorizeUrl, bundle);
+          result = await appTester(
+            App.authentication.oauth2Config.authorizeUrl,
+            bundle
+          );
         });
 
         it('returns the correct authorize url', () => {
+          let test_client_id = process.env.CLIENT_ID || '1234';
           expect(result).to.eql(
-            `${AUTH_BASE_URL}/authorize?scope=offline_access%20user.read%20Calendars.ReadWrite%20Mail.ReadWrite%20Mail.Send%20Contacts.ReadWrite&client_id=${config.get(
-              'Auth.CLIENT_ID',
-            )}&redirect_uri=http%3A%2F%2Fzapier.com%2F&response_type=code&response_mode=query`,
+            `${AUTH_BASE_URL}/authorize?scope=offline_access%20user.read%20Calendars.ReadWrite%20Mail.ReadWrite%20Mail.Send%20Contacts.ReadWrite&client_id=${test_client_id}&redirect_uri=http%3A%2F%2Fzapier.com%2F&response_type=code&response_mode=query`
           );
         });
       });
@@ -57,7 +58,10 @@ describe('authentication', () => {
             });
 
           // when we attempt to get the access token
-          result = await appTester(App.authentication.oauth2Config.getAccessToken, bundle);
+          result = await appTester(
+            App.authentication.oauth2Config.getAccessToken,
+            bundle
+          );
         });
 
         it('returns the expected access token', () => {
@@ -70,7 +74,7 @@ describe('authentication', () => {
 
         it('returns the expected scopes', () => {
           expect(result.scopes).to.eql(
-            'offline_access user.read Calendars.ReadWrite Mail.ReadWrite Mail.Send Contacts.ReadWrite',
+            'offline_access user.read Contacts.ReadWrite'
           );
         });
 
@@ -90,8 +94,10 @@ describe('authentication', () => {
 
         it('throws an error with a descriptive message', async () => {
           await expect(
-            appTester(App.authentication.oauth2Config.getAccessToken),
-          ).to.be.rejectedWith('Unable to fetch access token: Access token is empty.');
+            appTester(App.authentication.oauth2Config.getAccessToken)
+          ).to.be.rejectedWith(
+            'Unable to fetch access token: Access token is empty.'
+          );
         });
       });
 
@@ -104,9 +110,9 @@ describe('authentication', () => {
 
         it('throws an error with a descriptive message', async () => {
           await expect(
-            appTester(App.authentication.oauth2Config.getAccessToken),
+            appTester(App.authentication.oauth2Config.getAccessToken)
           ).to.be.rejectedWith(
-            'Unable to fetch access token. Error code 500: some bizarre string response',
+            'Unable to fetch access token. Error code 500: some bizarre string response'
           );
         });
       });
@@ -129,7 +135,10 @@ describe('authentication', () => {
             .reply(200, { userPrincipalName: 'testzapier@outlook.com' });
 
           // when we attempt to get the access token
-          result = await appTester(App.authentication.oauth2Config.getAccessToken, emptyBundle);
+          result = await appTester(
+            App.authentication.oauth2Config.getAccessToken,
+            emptyBundle
+          );
         });
 
         it('returns the expected access token', () => {
@@ -142,7 +151,7 @@ describe('authentication', () => {
 
         it('returns the expected scopes', () => {
           expect(result.scopes).to.eql(
-            'offline_access user.read Calendars.ReadWrite Mail.ReadWrite Mail.Send Contacts.ReadWrite',
+            'offline_access user.read Contacts.ReadWrite'
           );
         });
 
@@ -175,7 +184,10 @@ describe('authentication', () => {
             });
 
           // when we attempt to refresh the access token
-          result = await appTester(App.authentication.oauth2Config.refreshAccessToken, bundle);
+          result = await appTester(
+            App.authentication.oauth2Config.refreshAccessToken,
+            bundle
+          );
         });
 
         it('returns the expected access token', () => {
@@ -206,8 +218,10 @@ describe('authentication', () => {
 
         it('throws an error with a descriptive message', async () => {
           await expect(
-            appTester(App.authentication.oauth2Config.refreshAccessToken),
-          ).to.be.rejectedWith('Unable to refresh access token: Access token is empty.');
+            appTester(App.authentication.oauth2Config.refreshAccessToken)
+          ).to.be.rejectedWith(
+            'Unable to refresh access token: Access token is empty.'
+          );
         });
       });
 
@@ -220,9 +234,9 @@ describe('authentication', () => {
 
         it('throws an error with a descriptive message', async () => {
           await expect(
-            appTester(App.authentication.oauth2Config.refreshAccessToken),
+            appTester(App.authentication.oauth2Config.refreshAccessToken)
           ).to.be.rejectedWith(
-            'Unable to refresh access token. Error code 500: some bizarre string response',
+            'Unable to refresh access token. Error code 500: some bizarre string response'
           );
         });
       });
@@ -249,7 +263,10 @@ describe('authentication', () => {
             .reply(200, { userPrincipalName: 'testzapier@outlook.com' });
 
           // when we attempt to refresh the access token
-          result = await appTester(App.authentication.oauth2Config.refreshAccessToken, bundle);
+          result = await appTester(
+            App.authentication.oauth2Config.refreshAccessToken,
+            bundle
+          );
         });
 
         it('returns the expected access token', () => {
@@ -289,7 +306,9 @@ describe('authentication', () => {
         });
 
         it('returns the expected access token', () => {
-          expect(result.userPrincipalName).to.eql(validTestAuthResponse.userPrincipalName);
+          expect(result.userPrincipalName).to.eql(
+            validTestAuthResponse.userPrincipalName
+          );
         });
       });
 
@@ -302,7 +321,7 @@ describe('authentication', () => {
 
         it('throws an error with a descriptive message', async () => {
           await expect(appTester(App.authentication.test)).to.be.rejectedWith(
-            'Something went wrong with the authentication process. Please reconnect your account and try again.',
+            'Something went wrong with the authentication process. Please reconnect your account and try again.'
           );
         });
       });
@@ -317,7 +336,7 @@ describe('authentication', () => {
 
       it('throws an error with a descriptive message', async () => {
         await expect(appTester(App.authentication.test)).to.be.rejectedWith(
-          'Something went wrong with the authentication process. Please reconnect your account and try again.',
+          'Something went wrong with the authentication process. Please reconnect your account and try again.'
         );
       });
     });

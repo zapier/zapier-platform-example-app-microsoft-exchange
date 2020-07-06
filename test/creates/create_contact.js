@@ -1,4 +1,4 @@
-const { API_BASE_URL } = require('zapier-platform-common-microsoft/constants');
+const { API_BASE_URL } = require('../../constants');
 
 const { expect } = require('chai');
 const zapier = require('zapier-platform-core');
@@ -8,7 +8,8 @@ const App = require('../../index');
 const appTester = zapier.createAppTester(App);
 
 describe('Microsoft Exchange App', () => {
-  it('declares a create contact action', () => expect(App.creates.create_contact).to.exist);
+  it('declares a create contact action', () =>
+    expect(App.creates.create_contact).to.exist);
 
   describe('create contact action', () => {
     describe('given no contact folder is selected and Exchange returns a valid response for valid input', () => {
@@ -25,14 +26,17 @@ describe('Microsoft Exchange App', () => {
         };
 
         createContactCall = nock(API_BASE_URL)
-          .post('/me/contacts', (body) => {
+          .post('/me/contacts', body => {
             parsedBody = body;
             return body;
           })
           .reply(200, createContactMinFieldsResponse);
 
         // when the user tries to create a contact
-        result = await appTester(App.creates.create_contact.operation.perform, bundle);
+        result = await appTester(
+          App.creates.create_contact.operation.perform,
+          bundle
+        );
       });
 
       it('calls the expected endpoint', () => {
@@ -52,7 +56,9 @@ describe('Microsoft Exchange App', () => {
       });
 
       it('returns the expected results', () => {
-        expect(result.givenName).to.eql(createContactMinFieldsResponse.givenName);
+        expect(result.givenName).to.eql(
+          createContactMinFieldsResponse.givenName
+        );
         expect(result).to.not.have.property('emailAddresses_1');
         expect(result).to.not.have.property('businessPhones_1');
         expect(result).to.not.have.property('homePhones_1');
@@ -74,14 +80,20 @@ describe('Microsoft Exchange App', () => {
         };
 
         createContactCall = nock(API_BASE_URL)
-          .post(`/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`, (body) => {
-            parsedBody = body;
-            return body;
-          })
+          .post(
+            `/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`,
+            body => {
+              parsedBody = body;
+              return body;
+            }
+          )
           .reply(200, createContactInFolderResponse);
 
         // when the user tries to create a contact
-        result = await appTester(App.creates.create_contact.operation.perform, bundle);
+        result = await appTester(
+          App.creates.create_contact.operation.perform,
+          bundle
+        );
       });
 
       it('calls the expected endpoint', () => {
@@ -101,7 +113,9 @@ describe('Microsoft Exchange App', () => {
       });
 
       it('returns the expected results', () => {
-        expect(result.givenName).to.eql(createContactInFolderResponse.givenName);
+        expect(result.givenName).to.eql(
+          createContactInFolderResponse.givenName
+        );
         expect(result).to.not.have.property('emailAddresses_1');
         expect(result).to.not.have.property('businessPhones_1');
         expect(result).to.not.have.property('homePhones_1');
@@ -120,46 +134,59 @@ describe('Microsoft Exchange App', () => {
           inputData: {
             givenName: 'test',
             surname: 'contact',
-            emailAddresses: ['test1@test.com', 'test2@test.com', 'test3@test.com'],
+            emailAddresses: [
+              'test1@test.com',
+              'test2@test.com',
+              'test3@test.com',
+            ],
             businessPhones: ['555-555-5555'],
             homePhones: ['555-555-5554'],
             mobilePhone: '555-555-5553',
             jobTitle: 'test',
             companyName: 'test co',
             department: 'test dept',
-            homeAddress: [{
-              homeAddress_street: '123 home fake st.',
-              homeAddress_city: 'austin',
-              homeAddress_state: 'tx',
-              homeAddress_countryOrRegion: 'us',
-              homeAddress_postalCode: '78701',
-            }],
-            businessAddress: [{
-              businessAddress_street: '123 business fake st.',
-              businessAddress_city: 'austin',
-              businessAddress_state: 'tx',
-              businessAddress_countryOrRegion: 'us',
-              businessAddress_postalCode: '78701',
-            }],
-            otherAddress: [{
-              otherAddress_street: '123 other fake st.',
-              otherAddress_city: 'austin',
-              otherAddress_state: 'tx',
-              otherAddress_countryOrRegion: 'us',
-              otherAddress_postalCode: '78701',
-            }],
+            homeAddress: [
+              {
+                homeAddress_street: '123 home fake st.',
+                homeAddress_city: 'austin',
+                homeAddress_state: 'tx',
+                homeAddress_countryOrRegion: 'us',
+                homeAddress_postalCode: '78701',
+              },
+            ],
+            businessAddress: [
+              {
+                businessAddress_street: '123 business fake st.',
+                businessAddress_city: 'austin',
+                businessAddress_state: 'tx',
+                businessAddress_countryOrRegion: 'us',
+                businessAddress_postalCode: '78701',
+              },
+            ],
+            otherAddress: [
+              {
+                otherAddress_street: '123 other fake st.',
+                otherAddress_city: 'austin',
+                otherAddress_state: 'tx',
+                otherAddress_countryOrRegion: 'us',
+                otherAddress_postalCode: '78701',
+              },
+            ],
           },
         };
 
         createContactCall = nock(API_BASE_URL)
-          .post('/me/contacts', (body) => {
+          .post('/me/contacts', body => {
             parsedBody = body;
             return body;
           })
           .reply(200, createContactAllFieldsResponse);
 
         // when the user tries to create a contact
-        result = await appTester(App.creates.create_contact.operation.perform, bundle);
+        result = await appTester(
+          App.creates.create_contact.operation.perform,
+          bundle
+        );
       });
 
       it('calls the expected endpoint', () => {
@@ -172,33 +199,27 @@ describe('Microsoft Exchange App', () => {
           { name: 'test contact', address: 'test2@test.com' },
           { name: 'test contact', address: 'test3@test.com' },
         ]);
-        expect(parsedBody.businessAddress).to.eql(
-          {
-            street: '123 business fake st.',
-            city: 'austin',
-            state: 'tx',
-            countryOrRegion: 'us',
-            postalCode: '78701',
-          },
-        );
-        expect(parsedBody.homeAddress).to.eql(
-          {
-            street: '123 home fake st.',
-            city: 'austin',
-            state: 'tx',
-            countryOrRegion: 'us',
-            postalCode: '78701',
-          },
-        );
-        expect(parsedBody.otherAddress).to.eql(
-          {
-            street: '123 other fake st.',
-            city: 'austin',
-            state: 'tx',
-            countryOrRegion: 'us',
-            postalCode: '78701',
-          },
-        );
+        expect(parsedBody.businessAddress).to.eql({
+          street: '123 business fake st.',
+          city: 'austin',
+          state: 'tx',
+          countryOrRegion: 'us',
+          postalCode: '78701',
+        });
+        expect(parsedBody.homeAddress).to.eql({
+          street: '123 home fake st.',
+          city: 'austin',
+          state: 'tx',
+          countryOrRegion: 'us',
+          postalCode: '78701',
+        });
+        expect(parsedBody.otherAddress).to.eql({
+          street: '123 other fake st.',
+          city: 'austin',
+          state: 'tx',
+          countryOrRegion: 'us',
+          postalCode: '78701',
+        });
       });
 
       it('removes unnecessary attributes from the returned object', () => {
@@ -207,7 +228,9 @@ describe('Microsoft Exchange App', () => {
       });
 
       it('returns the expected results', () => {
-        expect(result.givenName).to.eql(createContactAllFieldsResponse.givenName);
+        expect(result.givenName).to.eql(
+          createContactAllFieldsResponse.givenName
+        );
         expect(result.emailAddresses_1).to.eql('test1@test.com');
         expect(result.emailAddresses_2).to.eql('test2@test.com');
         expect(result.emailAddresses_3).to.eql('test3@test.com');
@@ -227,8 +250,10 @@ describe('Microsoft Exchange App', () => {
 
       it('returns a descriptive error message', async () => {
         await expect(
-          appTester(App.creates.create_contact.operation.perform),
-        ).to.be.rejectedWith('Unable to create a contact: Access token is empty.');
+          appTester(App.creates.create_contact.operation.perform)
+        ).to.be.rejectedWith(
+          'Unable to create a contact: Access token is empty.'
+        );
       });
     });
 
@@ -243,9 +268,9 @@ describe('Microsoft Exchange App', () => {
 
       it('returns a descriptive error message', async () => {
         await expect(
-          appTester(App.creates.create_contact.operation.perform),
+          appTester(App.creates.create_contact.operation.perform)
         ).to.be.rejectedWith(
-          'Unable to create a contact: This feature requires new permissions from your Exchange account. Please reconnect your account to take advantage of it.',
+          'Unable to create a contact: This feature requires new permissions from your Exchange account. Please reconnect your account to take advantage of it.'
         );
       });
     });
@@ -259,9 +284,9 @@ describe('Microsoft Exchange App', () => {
 
       it('returns a descriptive error message', async () => {
         await expect(
-          appTester(App.creates.create_contact.operation.perform),
+          appTester(App.creates.create_contact.operation.perform)
         ).to.be.rejectedWith(
-          'Unable to create a contact. Error code 500: some internal server error',
+          'Unable to create a contact. Error code 500: some internal server error'
         );
       });
     });

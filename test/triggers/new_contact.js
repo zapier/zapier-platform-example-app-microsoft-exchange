@@ -1,4 +1,4 @@
-const { API_BASE_URL } = require('zapier-platform-common-microsoft/constants');
+const { API_BASE_URL } = require('../../constants');
 const { expect } = require('chai');
 const zapier = require('zapier-platform-core');
 const nock = require('nock');
@@ -10,7 +10,8 @@ const getBundle = () => ({
 });
 
 describe('Microsoft Exchange App', () => {
-  it('declares a new contact trigger', () => expect(App.triggers.new_contact).to.exist);
+  it('declares a new contact trigger', () =>
+    expect(App.triggers.new_contact).to.exist);
 
   describe('new contact trigger', () => {
     describe('given no contact folder is selected and Exchange returns a valid list of contacts', () => {
@@ -47,12 +48,17 @@ describe('Microsoft Exchange App', () => {
         const bundle = getBundle();
         bundle.inputData.contactFolderId = 'someContactFolderId';
         nock(API_BASE_URL)
-          .get(`/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`)
+          .get(
+            `/me/contactFolders/${bundle.inputData.contactFolderId}/contacts`
+          )
           .query({ $orderby: 'createdDateTime desc', $top: '50' })
           .reply(200, getContactsInFolderResponse);
 
         // when the user tries to get a list of contacts
-        result = await appTester(App.triggers.new_contact.operation.perform, bundle);
+        result = await appTester(
+          App.triggers.new_contact.operation.perform,
+          bundle
+        );
       });
 
       it('returns the expected contacts', () => {
@@ -60,7 +66,12 @@ describe('Microsoft Exchange App', () => {
         expect(result[0].id).to.eql(getContactsInFolderResponse.value[0].id);
         expect(result[1].id).to.eql(getContactsInFolderResponse.value[1].id);
         expect(result[0].emailAddresses_1).to.eql('zap.zaplar@zapier.ninja');
-        expect(result).to.be.an('array').to.all.include.deep.property('parentFolderId', 'someContactFolderId');
+        expect(result)
+          .to.be.an('array')
+          .to.all.include.deep.property(
+            'parentFolderId',
+            'someContactFolderId'
+          );
       });
 
       it('removes unnecessary attributes from the returned object', () => {
@@ -97,8 +108,10 @@ describe('Microsoft Exchange App', () => {
 
       it('returns a descriptive message', async () => {
         await expect(
-          appTester(App.triggers.new_contact.operation.perform),
-        ).to.be.rejectedWith('Unable to retrieve the list of contacts: some random error');
+          appTester(App.triggers.new_contact.operation.perform)
+        ).to.be.rejectedWith(
+          'Unable to retrieve the list of contacts: some random error'
+        );
       });
     });
   });
