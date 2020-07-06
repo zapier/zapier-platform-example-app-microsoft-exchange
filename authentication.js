@@ -12,8 +12,8 @@ async function getAccessToken(z, bundle) {
     method: 'POST',
     body: {
       grant_type: 'authorization_code',
-      client_id: config.get('Auth.CLIENT_ID'),
-      client_secret: config.get('Auth.CLIENT_SECRET'),
+      client_id: process.env.CLIENT_ID || '1234',
+      client_secret: process.env.CLIENT_SECRET || 'abcd',
       redirect_uri: `${bundle.inputData.redirect_uri}`,
       code: bundle.inputData.code,
       scope: scopes,
@@ -55,8 +55,8 @@ async function refreshAccessToken(z, bundle) {
     method: 'POST',
     body: {
       grant_type: 'refresh_token',
-      client_id: config.get('Auth.CLIENT_ID'),
-      client_secret: config.get('Auth.CLIENT_SECRET'),
+      client_id: process.env.CLIENT_ID || '1234',
+      client_secret: process.env.CLIENT_SECRET || 'abcd',
       redirect_uri: `${bundle.inputData.redirect_uri}`,
       refresh_token: `${bundle.authData.refresh_token}`,
       scope: `${bundle.authData.scopes}`,
@@ -102,8 +102,8 @@ async function authorizeUrl(z, bundle) {
 
   const urlParts = [
     `scope=${encodeURIComponent(scopes)}`,
-    `client_id=${config.get('Auth.CLIENT_ID')}`,
-    `redirect_uri=${encodeURIComponent(bundle.inputData.redirect_uri)}`,
+    `client_id=${process.env.CLIENT_ID || '1234'}`,
+    `redirect_uriprocess.env.CLIENT_SECRET || 'abcd'ta.redirect_uri)}`,
     `response_type=code`,
     `response_mode=query`,
   ];

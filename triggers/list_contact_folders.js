@@ -1,3 +1,5 @@
+const { API_BASE_URL } = require('../constants');
+
 const triggerListContactFolders = async z => {
   const response = await z.request({
     url: `${API_BASE_URL}/me/contactFolders`,

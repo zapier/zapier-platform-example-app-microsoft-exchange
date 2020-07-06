@@ -1,3 +1,5 @@
+const { cleanContactEntries, getContactRequestURL } = require('../helpers');
+
 const triggerNewContact = async (z, bundle) => {
   const response = await z.request({
     url: getContactRequestURL(bundle),
