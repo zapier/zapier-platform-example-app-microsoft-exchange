@@ -1,4 +1,11 @@
-const { getUserPrincipalName } = require('./utils');
+/**
+ * Authentication in a Zapier integration can be done in one of multiple ways. The recommended
+ * authentication scheme is OAuth2, which is what we're using here.
+ *
+ * More details here: https://platform.zapier.com/cli_docs/docs#oauth2
+ */
+
+const { getUserPrincipalName } = require('./helpers');
 const { API_BASE_URL, AUTH_BASE_URL } = require('./constants');
 
 const config = require('config');

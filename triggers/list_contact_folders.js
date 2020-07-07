@@ -1,3 +1,8 @@
+/**
+ * This trigger pulls choices for the "Contact Folder" field. See the comments in `new_contact.js` for more details.
+ * You'll notice in the exported definition that `display.hidden` is set to `true`.
+ */
+
 const { API_BASE_URL } = require('../constants');
 
 const triggerListContactFolders = async z => {

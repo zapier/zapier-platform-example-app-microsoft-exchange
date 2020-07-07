@@ -38,7 +38,6 @@ You'll need to have the Zapier Platform CLI installed if you haven't already:
 
 ```shell
 npm install -g zapier-platform-cli
-# npm install -g lerna TODO: reconsider lerna
 ```
 
 ### Setting up Dev
@@ -48,13 +47,14 @@ Run the following commands to get started locally:
 ```shell
 git clone git@github.com:zapier/zapier-platform-cli-apps.git
 cd zapier-platform-cli-apps/apps/microsoft-exchange
-lerna bootstrap [TODO: reconsider lerna to simplify things]
-git checkout -b <branchName>
+npm install
 ```
 
-### Deploying / Publishing
+Run `zapier register 'My Example MS Exchange App'` to register the app with Zapier.
 
-[TODO: add steps that make sense to devs ]
+You'll need to register a new app in Microsoft Azure, which you can do here: https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
+
+The app will have a Client ID and Client Secret, which you can set by following the instructions here: https://platform.zapier.com/cli_docs/docs#defining-environment-variables
 
 ## Versioning
 
