@@ -38,7 +38,6 @@ You'll need to have the Zapier Platform CLI installed if you haven't already:
 
 ```shell
 npm install -g zapier-platform-cli
-# npm install -g lerna TODO: reconsider lerna
 ```
 
 ### Setting up Dev
@@ -49,7 +48,6 @@ Run the following commands to get started locally:
 git clone git@github.com:zapier/zapier-platform-cli-apps.git
 cd zapier-platform-cli-apps/apps/microsoft-exchange
 npm install
-lerna bootstrap
 ```
 
 Run `zapier register 'My Example MS Exchange App'` to register the app with Zapier.

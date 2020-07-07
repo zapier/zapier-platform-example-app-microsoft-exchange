@@ -10,12 +10,7 @@
   "scripts": {
     "test": "mocha --timeout 10000 --recursive --require './test/bootstrap.js'",
     "lint": "eslint **/*.js",
-    "format": "prettier-eslint --write \"**/*.js\"",
-    "bootstrap": "lerna bootstrap --scope=zapier-platform-utils --scope=zapier-platform-common-* --scope=$npm_package_name",
-    "save": "lerna add --scope=$npm_package_name",
-    "save-dev": "lerna add --scope=$npm_package_name --dev",
-    "prezapier-push": "lerna bootstrap",
-    "zapier-push": "zapier push --skip-npm-install"
+    "format": "prettier-eslint --write \"**/*.js\""
   },
   "engines": {
     "node": "8.10.0",

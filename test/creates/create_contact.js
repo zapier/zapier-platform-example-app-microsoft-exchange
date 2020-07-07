@@ -6,6 +6,9 @@ const nock = require('nock');
 const App = require('../../index');
 
 const appTester = zapier.createAppTester(App);
+const getBundle = () => ({
+  inputData: {},
+});
 
 describe('Microsoft Exchange App', () => {
   it('declares a create contact action', () =>
@@ -19,11 +22,8 @@ describe('Microsoft Exchange App', () => {
       let parsedBody;
       let createContactCall;
       before(async () => {
-        const bundle = {
-          inputData: {
-            givenName: 'firstName',
-          },
-        };
+        const bundle = getBundle();
+        bundle.inputData.givenName = 'firstName';
 
         createContactCall = nock(API_BASE_URL)
           .post('/me/contacts', body => {
@@ -72,11 +72,10 @@ describe('Microsoft Exchange App', () => {
       let parsedBody;
       let createContactCall;
       before(async () => {
-        const bundle = {
-          inputData: {
-            givenName: 'firstName',
-            contactFolderId: 'someContactFolderId',
-          },
+        const bundle = getBundle();
+        bundle.inputData = {
+          givenName: 'firstName',
+          contactFolderId: 'someContactFolderId',
         };
 
         createContactCall = nock(API_BASE_URL)
@@ -130,49 +129,48 @@ describe('Microsoft Exchange App', () => {
       let parsedBody;
       let createContactCall;
       before(async () => {
-        const bundle = {
-          inputData: {
-            givenName: 'test',
-            surname: 'contact',
-            emailAddresses: [
-              'test1@test.com',
-              'test2@test.com',
-              'test3@test.com',
-            ],
-            businessPhones: ['555-555-5555'],
-            homePhones: ['555-555-5554'],
-            mobilePhone: '555-555-5553',
-            jobTitle: 'test',
-            companyName: 'test co',
-            department: 'test dept',
-            homeAddress: [
-              {
-                homeAddress_street: '123 home fake st.',
-                homeAddress_city: 'austin',
-                homeAddress_state: 'tx',
-                homeAddress_countryOrRegion: 'us',
-                homeAddress_postalCode: '78701',
-              },
-            ],
-            businessAddress: [
-              {
-                businessAddress_street: '123 business fake st.',
-                businessAddress_city: 'austin',
-                businessAddress_state: 'tx',
-                businessAddress_countryOrRegion: 'us',
-                businessAddress_postalCode: '78701',
-              },
-            ],
-            otherAddress: [
-              {
-                otherAddress_street: '123 other fake st.',
-                otherAddress_city: 'austin',
-                otherAddress_state: 'tx',
-                otherAddress_countryOrRegion: 'us',
-                otherAddress_postalCode: '78701',
-              },
-            ],
-          },
+        const bundle = getBundle();
+        bundle.inputData = {
+          givenName: 'test',
+          surname: 'contact',
+          emailAddresses: [
+            'test1@test.com',
+            'test2@test.com',
+            'test3@test.com',
+          ],
+          businessPhones: ['555-555-5555'],
+          homePhones: ['555-555-5554'],
+          mobilePhone: '555-555-5553',
+          jobTitle: 'test',
+          companyName: 'test co',
+          department: 'test dept',
+          homeAddress: [
+            {
+              homeAddress_street: '123 home fake st.',
+              homeAddress_city: 'austin',
+              homeAddress_state: 'tx',
+              homeAddress_countryOrRegion: 'us',
+              homeAddress_postalCode: '78701',
+            },
+          ],
+          businessAddress: [
+            {
+              businessAddress_street: '123 business fake st.',
+              businessAddress_city: 'austin',
+              businessAddress_state: 'tx',
+              businessAddress_countryOrRegion: 'us',
+              businessAddress_postalCode: '78701',
+            },
+          ],
+          otherAddress: [
+            {
+              otherAddress_street: '123 other fake st.',
+              otherAddress_city: 'austin',
+              otherAddress_state: 'tx',
+              otherAddress_countryOrRegion: 'us',
+              otherAddress_postalCode: '78701',
+            },
+          ],
         };
 
         createContactCall = nock(API_BASE_URL)
