@@ -85,3 +85,7 @@ npm run format
 ## Api References
 
 https://docs.microsoft.com/en-us/graph/use-the-api
+
+## Contributing
+
+We are not accepting contributions to this repo. This is just an example integration that illustrates a more comprehensive example of a Zapier integration built using the Zapier CLI.
