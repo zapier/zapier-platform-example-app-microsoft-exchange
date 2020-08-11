@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/zapier/zapier-platform-cli-apps.svg?token=usX6G3kJjLapz4YDeEzM&branch=master)](https://travis-ci.com/zapier/zapier-platform-cli-apps)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-This is an example CLI App for the Zapier Developer Platform. It uses the Microsoft Exchange API, showing what a fully-featured integration looks like. It follows the best practices for building an app on Zapier.
+This is an example CLI App for the Zapier Developer Platform. It uses the Microsoft Exchange API, showing what a fully-featured integration looks like. It follows the best practices for building an app that we follow here at Zapier.
 
 What it demonstrates:
 
@@ -89,3 +89,5 @@ https://docs.microsoft.com/en-us/graph/use-the-api
 ## Contributing
 
 We are not accepting contributions to this repo. This is just an example integration that illustrates a more comprehensive example of a Zapier integration built using the Zapier CLI.
+
+This repo isn't actively maintained.
